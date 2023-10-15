@@ -8,6 +8,7 @@ class Solution:
         #一个从subsequence走，一个从t走
         #当s[i] == t[j]时，i++
         #所以当i的值==s的size时，就代表有个subsequence
+        #注意边界问题，i要小于len(s)
         while j < len(t):
             if i < len(s) and t[j] == s[i]:
                 i += 1
