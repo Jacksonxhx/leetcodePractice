@@ -3,7 +3,9 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
+        #处理k > len(nums)的情况
         rotate = k % len(nums)
+        #记录从哪里开始转
         location = len(nums) - rotate
         res = []
         while location < len(nums):
