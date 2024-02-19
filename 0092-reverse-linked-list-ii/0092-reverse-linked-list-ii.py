@@ -5,22 +5,28 @@
 #         self.next = next
 class Solution:
     def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
-        tmp_value = [0] * (right - left + 1)
+        if left == right:
+            return head
         
-        walk = head
-        for i in range(left - 1):
-            walk = walk.next
+        dummy = ListNode(0)
+        dummy.next = head
+        prev = dummy
         
-        for i in range(right - left + 1):
-            tmp_value[i] = walk.val
-            walk = walk.next
+        # Move prev to the element just before the start of the reversal segment
+        for _ in range(left - 1):
+            prev = prev.next
         
-        res = head
-        for i in range(left - 1):
-            res = res.next
+        # Start the reversal process
+        reverse = None
+        current = prev.next
+        for _ in range(right - left + 1):
+            next_temp = current.next
+            current.next = reverse
+            reverse = current
+            current = next_temp
         
-        for i in range(right - left + 1):
-            res.val = tmp_value[-1-i]
-            res = res.next
+        # Connect the reversed segment back to the list
+        prev.next.next = current
+        prev.next = reverse
         
-        return head
+        return dummy.next
