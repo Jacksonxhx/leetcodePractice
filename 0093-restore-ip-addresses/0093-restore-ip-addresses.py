@@ -16,7 +16,7 @@ class Solution:
             if len(path) > 4:            
                 return
             
-             # 切割完成，将当前结果加入答案结果数组中
+             # 切割完成，将当前结果加入答案结果数组中，index == len(s)表示要全部做完
             if len(path) == 4 and index == len(s):
                 res.append('.'.join(path))
                 return
