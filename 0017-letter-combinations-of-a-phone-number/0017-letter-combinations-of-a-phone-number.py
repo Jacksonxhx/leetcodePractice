@@ -17,13 +17,17 @@ class Solution:
         res = []
         
         def backtracking(combination, index):
+            # base case，达到了位数返回
             if index == len(digits):
                 combinations.append(combination)
+            
+            # 回溯
             else:
+                # 每次进一位
                 digit = digits[index]
+                # 处理每位数的可能搭配
                 for letter in mapping[digit]:
                     backtracking(combination + letter, index + 1)
-        
         
         combinations = list()
         backtracking('', 0)
