@@ -11,10 +11,14 @@ class Solution:
             if len(tmp) == k:
                 res.append(tmp[:])
             else:
-                for i in range(index, n + 1): 
+                # 从1开始到n
+                for i in range(index, n + 1):
+                    # tmp加上i
                     tmp.append(i)
+                    # 然后一个个枚举
                     backtrack(tmp, i + 1)
-                    tmp.pop() # 回溯，移除最后一个元素
+                    # 回溯，移除上一个元素
+                    tmp.pop() 
 
         backtrack([], 1)
         return res
