@@ -17,7 +17,6 @@ class Solution:
         
         def dfs(node, Sum):
             if node in visited:
-                Sum -= node.val
                 return
             
             if node is None:
@@ -28,14 +27,12 @@ class Solution:
             
             if node.left is None and node.right is None:
                 res.append(Sum)
-                Sum -= node.val
                 return
             
             dfs(node.left, Sum)
             dfs(node.right, Sum)
         
         dfs(root, 0)
-        print(res)
         
         if targetSum in res:
             return True
