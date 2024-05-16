@@ -9,8 +9,6 @@ class Solution:
         
         def backtrack(tmp, index):
             if len(tmp) == k:
-                if len(set(tmp)) != k:
-                    return
                 res.append(tmp[:])
             else:
                 for i in range(index, n + 1): 
