@@ -8,7 +8,7 @@ class Solution:
                     l = mid + 1
                 else:
                     r = mid - 1
-            return l
+            return l # 它指向第一个大于或等于目标值的位置
         
         def findRight(nums: List[int], target: int) -> int:
             l, r = 0, len(nums) - 1
@@ -18,7 +18,7 @@ class Solution:
                     l = mid + 1
                 else:
                     r = mid - 1
-            return r
+            return r # 它指向最后一个小于或等于目标值的位置
         
         left = findLeft(nums, target)
         right = findRight(nums, target)
