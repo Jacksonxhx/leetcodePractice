@@ -16,5 +16,4 @@ class Solution:
                 left = mid + 1
             else:
                 right = mid 
-        print(nums[right])
-        return nums[right]
+        return nums[left]
