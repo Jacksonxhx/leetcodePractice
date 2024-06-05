@@ -8,32 +8,28 @@ class Solution:
     def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
         '''
         dfs, 记录每个node能找到targetsum的数量
-        对所有的node进行一次dfs查找
+        用前缀和做
         '''
-        res = self.inorder(root, targetSum)
-            
-        return res
-    
-    def dfs(self, root, cur_sum, targetSum) -> int:
-            if not root:
+        prefix_sum_count = {0: 1}
+        
+        def dfs(node, current_sum):
+            # 初始前缀和为0，出现1次
+            if not node:
                 return 0
             
-            cur_sum = cur_sum + root.val
-            left, res, right = 0, 0, 0
+            current_sum += node.val
+            # 查找前缀和字典中是否有current_sum - targetSum
+            paths = prefix_sum_count.get(current_sum - targetSum, 0)
             
-            left = self.dfs(root.left, cur_sum, targetSum)
-            right = self.dfs(root.right, cur_sum, targetSum)
-            if cur_sum == targetSum:
-                res = 1
+            # 更新当前路径和在前缀和字典中的计数
+            prefix_sum_count[current_sum] = prefix_sum_count.get(current_sum, 0) + 1
+            paths += dfs(node.left, current_sum)
+            paths += dfs(node.right, current_sum)
             
-            return left + res + right
-    
-    def inorder(self, root, targetSum):
-        left, res, right = 0, 0, 0
-        if root:
-            left = self.inorder(root.left, targetSum)
-            res = self.dfs(root, 0, targetSum)
-            right = self.inorder(root.right, targetSum)
+            # 回溯，减少当前路径和在前缀和字典中的计数
+            prefix_sum_count[current_sum] -= 1
+            
+            return paths
         
-        return left + res + right
+        return dfs(root, 0)
         
