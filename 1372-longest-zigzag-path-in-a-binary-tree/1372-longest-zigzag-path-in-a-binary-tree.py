@@ -20,9 +20,11 @@ class Solution:
             
             # 如果当前方向是向左，则下一步移动到右子节点（0左1右）
             if direction == 0:  
+                # 处理往右和失败的情况
                 dfs(node.right, 1, length + 1)  # 改变方向向右
                 dfs(node.left, 0, 1)  # 重新开始计算从当前节点向左的路径
             else: 
+                # 处理往左和失败的情况
                 dfs(node.left, 0, length + 1)  # 改变方向向左
                 dfs(node.right, 1, 1)  # 重新开始计算从当前节点向右的路径
             
