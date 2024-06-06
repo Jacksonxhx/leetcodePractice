@@ -8,12 +8,13 @@ class Solution:
         if not points:
             return 0
         
-        # 按照结束生序排列
+        # 按照结束升序排列
         points.sort(key=lambda x: x[1])
         count = 1
         arrow_pos = points[0][1]
         
         for i in range(1, len(points)):
+            # 遇到坐标小于区间起始位置
             if points[i][0] > arrow_pos:
                 count += 1
                 arrow_pos = points[i][1]
