@@ -6,17 +6,18 @@ class Solution:
         '''
         potions.sort()
         res = []
-
-        for spell in spells:
-            l, r = 0, len(potions)
+        length = len(potions)
+        
+        for i in range(len(spells)):
+            l, r = 0, length
+            
             while l < r:
                 mid = (l + r) // 2
-                if spell * potions[mid] >= success:
+                if spells[i] * potions[mid] >= success:
                     r = mid
                 else:
                     l = mid + 1
             
-            # Number of successful pairs for this spell
-            res.append(len(potions) - l)
+            res.append(length - l)
         
         return res
