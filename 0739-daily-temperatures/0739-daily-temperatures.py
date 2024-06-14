@@ -1,19 +1,23 @@
 class Solution:
     def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
-        '''
-        使用单调递增栈找到每一位的下一位更大的地址
-        '''
-        ans = [0] * len(temperatures)
-        stack = []
+        """
+        单调栈做，如果遇到比stack[-1]大的，pop，加入新的
+        如果stack里有，比当前小，继续pop
+        """
+        length = len(temperatures)
         
-        for i in range(len(temperatures)):
-            # 当stack有东西且下一位比上一位大的时候
-            # 所以不是一个一个找，而是动态的找
+        # 存当前数的index
+        stack = []
+        res = [0] * length
+        
+        for i in range(length):
+            # 当stack有且当前数大于stack里最新的数的时候
             while stack and temperatures[i] > temperatures[stack[-1]]:
-                # 上一位的位置
+                # 得到最新的stack的数位置
                 index = stack.pop()
-                # 在index位的时候，
-                ans[index] = i - index
+                # 在res中的当前位置求距离
+                # 因为当前i位是第一个比index位大的，所以是i-index
+                res[index] = i - index
             stack.append(i)
             
-        return ans
+        return res
