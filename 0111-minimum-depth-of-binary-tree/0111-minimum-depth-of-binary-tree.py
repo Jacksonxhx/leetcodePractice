@@ -16,6 +16,8 @@ class Solution:
         r = self.minDepth(root.right)
         
         min_depth = float("inf")
+        
+        # 持续更新min_depth，能得到一个node最小的depth
         if root.left:
             min_depth = min(l, min_depth)
         if root.right:
