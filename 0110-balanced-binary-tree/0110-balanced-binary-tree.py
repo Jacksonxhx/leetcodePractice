@@ -18,6 +18,7 @@ class Solution:
                 return 0
             
             # 判断左右两个子树是否有node
+            # 如果到了最底层就是会返回0，这里判断-1是如果已经not balanced了就直接退出
             l = checkBalance(node.left)
             if l == -1:
                 return -1
@@ -30,6 +31,7 @@ class Solution:
             if abs(l - r) > 1:
                 return -1
             
+            # 返回height
             return max(l, r) + 1
         
         return checkBalance(root) != -1
