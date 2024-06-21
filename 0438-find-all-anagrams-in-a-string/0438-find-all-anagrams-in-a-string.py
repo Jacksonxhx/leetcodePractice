@@ -4,31 +4,30 @@ class Solution:
         滑动窗口做，固定长度len(p)
         用hash存p里的字数，然后遍历s滑动窗口统计
         """
-        # 构建list方便操作
-        p_list, s_list, res = [], [], []
-        length = len(p)
-        for i in p:
-            p_list.append(i)
-            
-        for i in s:
-            s_list.append(i)
-            
-        # 统计p的字符
-        p_hash = Counter(p_list)
+        need = collections.defaultdict(int)
+        for ch in p:
+            need[ch] += 1
 
-        # 维护一个固定大小的滑动窗口
-        l, r, window = 0, 0, []
-        while r < len(s):
-            window.append(s_list[r])
-            
-            if r - l + 1 >= length:
-                if Counter(window) == p_hash:
-                    res.append(l)
-                    
-                window.pop(0)
-                l += 1
-            r += 1
-        
+        window = collections.defaultdict(int)
+        window_size = len(p)
+        res = []
+        left, right = 0, 0
+        valid = 0
+        while right < len(s):
+            if s[right] in need:
+                window[s[right]] += 1
+                if window[s[right]] == need[s[right]]:
+                    valid += 1
+
+            if right - left + 1 >= window_size:
+                if valid == len(need):
+                    res.append(left)
+                if s[left] in need:
+                    if window[s[left]] == need[s[left]]:
+                        valid -= 1
+                    window[s[left]] -= 1
+                left += 1
+            right += 1
         return res
         
         
