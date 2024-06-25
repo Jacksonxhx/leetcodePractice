@@ -29,6 +29,7 @@ class Solution:
                     # 如果当前组合的最大可能值已经小于max_rank，提前退出循环
                     break
                 rank = indegrees[u] + indegrees[v]
+                # 避免每次全部搜一遍
                 if adjacency[u][v]:
                     rank -= 1
                 max_rank = max(max_rank, rank)
