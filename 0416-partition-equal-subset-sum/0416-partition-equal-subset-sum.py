@@ -1,24 +1,22 @@
 class Solution:
-    def judge(self, weight, value, m):
-        n = len(weight)
-        dp = [0 for _ in range(m + 1)]
+    # 思路 2：动态规划 + 滚动数组优化
+    def zeroOnePackMethod2(self, weight: [int], value: [int], W: int):
+        size = len(weight)
+        dp = [0 for _ in range(W + 1)]
         
-        for i in range(1, n + 1):
-            for j in range(m, weight[i - 1] - 1, -1):
-                dp[j] = max(dp[j], dp[j - weight[i - 1]] + value[i - 1])
-        
-        return dp[m]
-    
-    
-    
+        # 枚举前 i 种物品
+        for i in range(1, size + 1):
+            # 逆序枚举背包装载重量（避免状态值错误）
+            for w in range(W, weight[i - 1] - 1, -1):
+                # dp[w] 取「前 i - 1 件物品装入载重为 w 的背包中的最大价值」与「前 i - 1 件物品装入载重为 w - weight[i - 1] 的背包中，再装入第 i - 1 物品所得的最大价值」两者中的最大值
+                dp[w] = max(dp[w], dp[w - weight[i - 1]] + value[i - 1])
+                
+        return dp[W]
+
     def canPartition(self, nums: List[int]) -> bool:
-        """
-        01 背包问题，就是说找到一个子集的和是整个nums的和的一半
-        """
         sum_nums = sum(nums)
         if sum_nums & 1:
             return False
-        
+
         target = sum_nums // 2
-        return self.judge(nums, nums, target) == target
-        
+        return self.zeroOnePackMethod2(nums, nums, target) == target
