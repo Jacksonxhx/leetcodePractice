@@ -3,43 +3,33 @@ from collections import defaultdict
 class Solution:
     def makeConnected(self, n: int, connections: List[List[int]]) -> int:
         # 找到有几个unconnected的computer cluster，找scc数量，return数量就行
-        length = len(connections)
         
         # 处理不可能的情况 
-        if length + 1 < n:
+        if len(connections) < n - 1:
             return -1
         
-        # 建图
-        graph = {}
-        for i in range(n):
-             graph[i] = []
+        # 构建图
+        graph = defaultdict(list)
+        for u, v in connections:
+            graph[u].append(v)
+            graph[v].append(u)
         
-        for i, j in connections:
-            graph[i].append(j)
-            graph[j].append(i)
-        
-        clusters = []
+        # 访问过的节点集合
         visited = set()
         
-        def dfs(i):
-            connects = graph[i]
-            group = set()
-            
-            while connects:
-                connect = connects.pop()
-                
-                if connect not in group:
-                    connects += graph[connect]
-                    group.add(connect)
-                    visited.add(connect)
-                
-            clusters.append(group)
+        # 深度优先搜索
+        def dfs(node):
+            visited.add(node)
+            for neighbor in graph[node]:
+                if neighbor not in visited:
+                    dfs(neighbor)
         
+        # 统计有多少个连通分量
+        components = 0
         for i in range(n):
             if i not in visited:
+                components += 1
                 dfs(i)
         
-        print(clusters)
-        
-        return len(clusters) - 1
+        return components - 1
         
