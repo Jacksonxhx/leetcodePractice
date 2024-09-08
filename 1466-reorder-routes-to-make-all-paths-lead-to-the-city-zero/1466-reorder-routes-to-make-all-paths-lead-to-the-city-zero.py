@@ -1,34 +1,36 @@
 from typing import List, Set, Dict
+from collections import defaultdict
 
 class Solution:
     def minReorder(self, n: int, connections: List[List[int]]) -> int:
         '''
-        对于root做dfs，如果遇到[0,n]的情况，就cnt ++
+        当无向图建图，对于root做dfs，如果遇到[0,n]的情况，就cnt ++
         '''
-        # 用邻接表存图
-        graph: Dict[int, List[int]] = {i: [] for i in range(n)}
-        # 存边
-        edges: Set[Tuple[int, int]] = set()
+        # 建无向图，同时表示方向
+        graph = defaultdict(list)
+        for u, v in connections:
+            graph[u].append((v, True))  # u -> v，True 表示原始方向
+            graph[v].append((u, False))  # v -> u，False 表示逆向
+            
+        visited = set()
+        cnt = 0
         
-        # 假设是一个无向图，append从a到b，从b到a，构建边
-        for a, b in connections:
-            graph[a].append(b)
-            graph[b].append(a)
-            edges.add((a, b))
+        def dfs(node):
+            visited.add(node)
+            neighbors = graph[node]
+            
+            for neighbor, direction in neighbors:
+                if neighbor not in visited:
+                    # 如果是原始方向，需要改变
+                    if direction:
+                        nonlocal cnt
+                        cnt += 1
+                        # 继续搜
+                    dfs(neighbor)
+            
+        dfs(0)
         
-        self.cnt = 0
+        return cnt
         
-        def dfs(u: int, parent: int):
-            # 遍历所有到u的v
-            for v in graph[u]:
-                # 如果v是parent，证明是从v到u，所以continue
-                if v == parent:
-                    continue
-                # 如果(u, v)原本就在，意味着从u到v，则需要inverse
-                if (u, v) in edges:
-                    self.cnt += 1
-                # 遍历所有的v，然后把v作为当前node，u作为parent
-                dfs(v, u)
         
-        dfs(0, -1)
-        return self.cnt
+        
