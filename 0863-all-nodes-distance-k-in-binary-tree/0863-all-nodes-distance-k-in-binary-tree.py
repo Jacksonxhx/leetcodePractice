@@ -5,7 +5,7 @@
 #         self.left = None
 #         self.right = None
 
-from collections import deque
+from collections import defaultdict
 
 
 class Solution:
@@ -21,25 +21,24 @@ class Solution:
                     graph[parent.val].append(node.val)
                 build_graph(node.left, node)
                 build_graph(node.right, node)
-                
+        
         graph = defaultdict(list)
         build_graph(root, None)
         
-        # value + level
-        queue = deque([(target.val, 0)])
+        queue = [(target.val, 0)]
         visited = set()
         visited.add(target.val)
         res = []
         
         while queue:
-            current, distance = queue.popleft()
+            cur, dist = queue.pop(0)
             
-            if distance == k:
-                res.append(current)
-            elif distance < k:
-                for neighbor in graph[current]:
-                    if neighbor not in visited:
-                        visited.add(neighbor)
-                        queue.append((neighbor, distance + 1))
+            if dist == k:
+                res.append(cur)
+            
+            for neighbor in graph[cur]:
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    queue.append((neighbor, dist + 1))
         
         return res
