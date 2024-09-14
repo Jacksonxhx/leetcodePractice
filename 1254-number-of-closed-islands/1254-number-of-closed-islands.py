@@ -3,12 +3,12 @@ class Solution:
         directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
         m, n = len(grid), len(grid[0])
         
+        # 如果超过boundary
         if i < 0 or i >= m or j < 0 or j >= n:
             return False
         if grid[i][j]:
             return True
         
-        # 记录表示来过了
         grid[i][j] = 1
         
         res = True
@@ -16,6 +16,7 @@ class Solution:
             nx, ny = i + dx, j + dy
             if not self.dfs(grid, nx, ny):
                 res = False
+                
         return res
         
     def closedIsland(self, grid: List[List[int]]) -> int:
@@ -30,3 +31,4 @@ class Solution:
                     res += 1
                     
         return res
+        
